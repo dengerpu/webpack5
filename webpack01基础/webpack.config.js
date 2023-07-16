@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const svgToMiniDataURI = require('mini-svg-data-uri')
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -7,8 +8,12 @@ module.exports = {
         // 输出文件夹必须定义为绝对路径
         path: path.resolve(__dirname, './dist'),
         // 打包前清理 dist 文件夹
-        clean: true
-
+        clean: true,
+        assetModuleFilename: 'images/[contenthash][ext][query]'
+    },
+    // dev-server
+    devServer: {
+        static: './dist'
     },
     plugins: [
         // 实例化 html-webpack-plugin 插件
@@ -22,5 +27,32 @@ module.exports = {
     // 开发模式
     mode: 'development',
     // 在开发模式下追踪代码
-    devtool: 'inline-source-map'
+    devtool: 'inline-source-map',
+    // 配置资源文件
+    module: {
+        rules: [
+            {
+                test: /\.png/,
+                type: 'asset/resource',
+                // 优先级高于 assetModuleFilename
+                generator: {
+                    filename: 'images/[contenthash][ext][query]'
+                }
+            },
+            {
+                test: /\.svg/,
+                type: 'asset/inline',
+                generator: {
+                    dataUrl: content => {
+                        content = content.toString();
+                        return svgToMiniDataURI(content);
+                    }
+                }
+            },
+            {
+                test: /\.txt/,
+                type: 'asset/source',
+            }
+        ]
+    }
 }
