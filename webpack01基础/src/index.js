@@ -30,3 +30,8 @@ const img2 = document.createElement('img')
 img2.src = jpgSrc
 img2.style.cssText = 'width: 200px; height: 40px'
 document.body.appendChild(img2)
+
+const span = document.createElement('span')
+span.classList.add('icon')
+span.innerHTML = '&#xe668;'
+document.body.appendChild(span)
