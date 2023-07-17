@@ -52,6 +52,16 @@ module.exports = {
             {
                 test: /\.txt/,
                 type: 'asset/source',
+            },
+            {
+                test: /\.jpg/,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        // 设置4kb以内使用asset/inline,大于4Kb使用asset/resource
+                        maxSize: 4 * 1024 // 4kb
+                    }
+                }
             }
         ]
     }
