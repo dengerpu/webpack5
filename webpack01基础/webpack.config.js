@@ -1,8 +1,12 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const svgToMiniDataURI = require('mini-svg-data-uri')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+
 module.exports = {
     entry: './src/index.js',
+    performance: { hints: false },
     output: {
         filename: 'bundle.js',
         // 输出文件夹必须定义为绝对路径
@@ -22,10 +26,13 @@ module.exports = {
             filename: 'app.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body' // true|'head'|'body'|false，默认值为 true
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'styles/[contenthash].css'
         })
     ],
     // 开发模式
-    mode: 'development',
+    mode: 'production',
     // 在开发模式下追踪代码
     devtool: 'inline-source-map',
     // 配置资源文件
@@ -65,12 +72,18 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
                 test: /\.less$/i,
                 use: ['style-loader', 'css-loader', 'less-loader']
             }
+        ]
+    },
+    // 优化配置
+    optimization: {
+        minimizer: [
+            new CssMinimizerPlugin()
         ]
     }
 }

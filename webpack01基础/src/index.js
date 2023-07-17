@@ -23,6 +23,7 @@ const div = document.createElement('div')
 div.textContent = text
 div.style.cssText = 'background: aliceblue'
 div.classList.add('hello')
+div.classList.add('div-bg')
 document.body.appendChild(div)
 
 const img2 = document.createElement('img')
