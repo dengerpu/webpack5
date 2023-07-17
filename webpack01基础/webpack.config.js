@@ -62,6 +62,14 @@ module.exports = {
                         maxSize: 4 * 1024 // 4kb
                     }
                 }
+            },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.less$/i,
+                use: ['style-loader', 'css-loader', 'less-loader']
             }
         ]
     }

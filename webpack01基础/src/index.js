@@ -3,8 +3,12 @@ import imgSrc from './assets/image/webpack.png'
 import svgSrc from './assets/image/webpack-logo.svg'
 import text from './assets/test.txt'
 import jpgSrc from './assets/image/test.jpg'
+import './assets/css/style.css'
+import './assets/css/style.less'
 
 Hello()
+
+document.body.classList.add('bg')
 
 const img = document.createElement('img')
 img.src = imgSrc
@@ -18,6 +22,7 @@ document.body.appendChild(svgImg)
 const div = document.createElement('div')
 div.textContent = text
 div.style.cssText = 'background: aliceblue'
+div.classList.add('hello')
 document.body.appendChild(div)
 
 const img2 = document.createElement('img')
