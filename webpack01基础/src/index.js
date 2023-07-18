@@ -5,6 +5,21 @@ import text from './assets/test.txt'
 import jpgSrc from './assets/image/test.jpg'
 import './assets/css/style.css'
 import './assets/css/style.less'
+import dataXml from './assets/data/data.xml'
+import dataCsv from './assets/data/data.csv'
+import toml from './assets/json/data.toml'
+import yaml from './assets/json/data.yaml'
+import json from './assets/json/data.json5'
+
+console.log(toml.title); // output `TOML Example`
+console.log(toml.owner.name); // output `Tom Preston-Werner`
+console.log(yaml.title); // output `YAML Example`
+console.log(yaml.owner.name); // output `Tom Preston-Werner`
+console.log(json.title); // output `JSON5 Example`
+console.log(json.owner.name); // output `Tom Preston-Werner`
+
+console.log(dataXml)
+console.log(dataCsv)
 
 Hello()
 

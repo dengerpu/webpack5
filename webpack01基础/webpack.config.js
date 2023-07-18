@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const svgToMiniDataURI = require('mini-svg-data-uri')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const toml = require('toml');
+const yaml = require('yamljs');
+const json5 = require('json5');
 
 module.exports = {
     entry: './src/index.js',
@@ -81,6 +84,45 @@ module.exports = {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource'
+            },
+            {
+                test: /\.(csv|tsv)$/i,
+                use: ['csv-loader']
+            },
+            {
+                test: /\.xml$/i,
+                use: ['xml-loader']
+            },
+            {
+                test: /\.toml$/i,
+                type: 'json',
+                parser: {
+                    parse: toml.parse
+                },
+            },
+            {
+                test: /\.yaml$/i,
+                type: 'json',
+                parser: {
+                    parse: yaml.parse,
+                },
+            },
+            {
+                test: /\.json5$/i,
+                type: 'json',
+                parser: {
+                    parse: json5.parse,
+                },
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             }
         ]
     },
