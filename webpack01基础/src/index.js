@@ -10,6 +10,10 @@ import dataCsv from './assets/data/data.csv'
 import toml from './assets/json/data.toml'
 import yaml from './assets/json/data.yaml'
 import json from './assets/json/data.json5'
+import _ from 'lodash'
+import './async-module.js'
+
+console.log(_.join(['index', 'module', 'loaded!'], ' '))
 
 console.log(toml.title); // output `TOML Example`
 console.log(toml.owner.name); // output `Tom Preston-Werner`

@@ -8,10 +8,34 @@ const yaml = require('yamljs');
 const json5 = require('json5');
 
 module.exports = {
-    entry: './src/index.js',
+    // entry: './src/index.js',
+    // 代码分离方式一：入口起点
+    // entry: {
+    //     index: './src/index.js',
+    //     another: './src/another-module.js'
+    // },
+
+    //代码分离方式二：防止重复
+    // entry: {
+    //     index: {
+    //         import: './src/index.js',
+    //         dependOn: 'shared'
+    //     },
+    //     another: {
+    //         import: './src/another-module.js',
+    //         dependOn: 'shared'
+    //     },
+    //     shared: 'lodash'
+    // },
+    //代码分离方式二：借助插件 SplitChunksPlugin
+    entry: {
+        index: './src/index.js',
+        another: './src/another-module.js'
+    },
     performance: { hints: false },
     output: {
-        filename: 'bundle.js',
+        // filename: 'bundle.js',
+        filename: '[name].bundle.js',
         // 输出文件夹必须定义为绝对路径
         path: path.resolve(__dirname, './dist'),
         // 打包前清理 dist 文件夹
@@ -130,6 +154,10 @@ module.exports = {
     optimization: {
         minimizer: [
             new CssMinimizerPlugin()
-        ]
+        ],
+        // 代码分离，抽取公共代码
+        splitChunks: {
+            chunks: 'all',
+        }
     }
 }
