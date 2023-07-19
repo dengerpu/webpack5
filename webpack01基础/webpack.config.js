@@ -35,7 +35,9 @@ module.exports = {
     performance: { hints: false },
     output: {
         // filename: 'bundle.js',
-        filename: '[name].bundle.js',
+        // filename: '[name].bundle.js',
+        // 内容改变就换文件名，防止被缓存
+        filename: 'scripts/[name].[contenthash].js',
         // 输出文件夹必须定义为绝对路径
         path: path.resolve(__dirname, './dist'),
         // 打包前清理 dist 文件夹
@@ -157,7 +159,15 @@ module.exports = {
         ],
         // 代码分离，抽取公共代码
         splitChunks: {
-            chunks: 'all',
+            // 缓存第三方库
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+            
         }
     }
 }
