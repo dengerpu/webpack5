@@ -54,3 +54,29 @@ const span = document.createElement('span')
 span.classList.add('icon')
 span.innerHTML = '&#xe668;'
 document.body.appendChild(span)
+
+const button = document.createElement('button')
+button.textContent = '点我执行加法运算'
+button.addEventListener('click', function() {
+    // webpackChunkName 打包的时候name是math  （输出的命名格式filename: '[name].bundle.js',）
+    // webpackPrefetch 告诉 webpack 执行预获取
+    import(/* webpackChunkName: 'math', webpackPrefetch: true*/'./math.js').then(({add}) => {
+        console.log('1 + 2 = ',add(1,2))
+    })
+})
+document.body.appendChild(button)
+
+// const button2 = document.createElement('button')
+// button2.textContent = "点我执行打印"
+// button2.addEventListener('click', function() {
+//     // webpackChunkName 打包的时候name是print （输出的命名格式filename: '[name].bundle.js',）
+//     // webpackPreload 告诉 webpack 执行预获取
+//     import(/* webpackChunkName: 'print', webpackPreload: true*/'./print.js').then(({print}) => {
+//        print()
+//     })
+// })
+// document.body.appendChild(button2)
+
+import(/* webpackChunkName: 'print', webpackPreload: true*/'./print.js').then(({print}) => {
+    print()
+ })
