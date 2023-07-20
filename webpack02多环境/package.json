@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve": "webpack serve -c ./config/webpack.config.dev.js",
+    "build": "webpack -c ./config/webpack.config.prod.js",
     "dev": "webpack-dev-server"
   },
   "author": "",
