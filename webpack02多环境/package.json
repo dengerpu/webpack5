@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack serve -c ./config/webpack.config.dev.js",
-    "build": "webpack -c ./config/webpack.config.prod.js",
+    "serve": "webpack serve -c ./config/webpack.config.js --env development",
+    "build": "webpack -c ./config/webpack.config.js --env production",
     "dev": "webpack-dev-server"
   },
   "author": "",
@@ -31,6 +31,7 @@
     "style-loader": "^3.3.3",
     "toml": "^3.0.0",
     "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0",
     "xml-loader": "^1.2.1",
     "yamljs": "^0.3.0"
   }
