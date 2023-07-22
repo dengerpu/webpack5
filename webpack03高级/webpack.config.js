@@ -28,7 +28,33 @@ module.exports = {
                 'x-header-id': 'abcdefg',
                 'X-Bar': ['key1=value1', 'key2=value2']
             }
-        }
+        },
+        proxy: {
+            '/api': {
+                target: 'http://localhost:9000',
+                // pathRewrite: { '^/api': '' },
+                secure: false
+            }
+        },
+        // https: true
+        // https: {
+        //     cacert: './server.pem',
+        //     pfx: './server.pfx',
+        //     key: './server.key',
+        //     cert: './server.crt',
+        //     passphrase: 'webpack-dev-server',
+        //     requestCert: true,
+        // }
+        http2: true,
+        // historyApiFallback: true // 访问不存在的路径默认会跳到index.html
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/$/, to: '/views/landing.html'},
+                { from: /^\/some/, to: '/404.html' },
+                { from: /./, to: '/views/404.html' }
+            ]
+        },
+        // host: '0.0.0.0' // 局域网下共享服务
     },
     // 开发模式
     mode: 'development',
@@ -38,7 +64,15 @@ module.exports = {
             template: './index.html', // 打包生成的文件的模板
             filename: 'index.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
-            inject: 'body' // true|'head'|'body'|false，默认值为 true
+            inject: 'body', // true|'head'|'body'|false，默认值为 true
+            chunks: ['index'] // 要引入的js文件
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/views/404.html', // 打包生成的文件的模板
+            filename: '404.html', // 打包生成的文件名称。默认为index.html
+            // 也就是<script src="bundle.js"></script>的位置
+            inject: 'body', // true|'head'|'body'|false，默认值为 true
+            chunks: ['']
         })
     ]
 }
