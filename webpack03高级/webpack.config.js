@@ -13,6 +13,8 @@ module.exports = {
         filename: 'scripts/[name].js'
     },
     devServer: {
+        hot: true,
+        liveReload: false, // 默认为true，即开启热更新功能。
         // static: {
         //  directory: path.join(__dirname, 'dist')
         // }, // 默认是把/dist目录当作web服务的根目录
@@ -74,5 +76,17 @@ module.exports = {
             inject: 'body', // true|'head'|'body'|false，默认值为 true
             chunks: ['']
         })
-    ]
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(js|jsx)$/,
+                use: ['babel-loader', 'eslint-loader']
+            }
+        ]
+    }
 }

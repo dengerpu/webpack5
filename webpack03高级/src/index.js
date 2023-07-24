@@ -1,13 +1,13 @@
+import './assets/css/index.css'
 const h1 = document.createElement('h1')
 h1.innerHTML = 'index.html'
+h1.classList.add('red')
 document.body.appendChild(h1)
-console.log('hello')
+console.log('hello, 更改了')
 
 const button = document.createElement('button')
 button.onclick = function() {
-    fetch('/api/hello')
-    .then(response => response.text())
-    .then(result => {
+    fetch('/api/hello').then(response => response.text()).then(result => {
         console.log(result)
     })
 }

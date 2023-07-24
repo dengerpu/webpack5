@@ -42,7 +42,9 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         // 打包前清理 dist 文件夹
         clean: true,
-        assetModuleFilename: 'images/[contenthash][ext][query]'
+        assetModuleFilename: 'images/[contenthash][ext][query]',
+        // 公共路径
+        publicPath: 'http://localhost:8080/'
     },
     // dev-server
     devServer: {
@@ -62,6 +64,7 @@ module.exports = {
     ],
     // 开发模式
     mode: 'production',
+
     // 在开发模式下追踪代码
     devtool: 'inline-source-map',
     // 配置资源文件
