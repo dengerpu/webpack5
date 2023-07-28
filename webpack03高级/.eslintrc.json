@@ -25,6 +25,6 @@
             "error",
             "never"
         ],
-        "no-console": "warn"
+        "no-console": 0
     }
 }

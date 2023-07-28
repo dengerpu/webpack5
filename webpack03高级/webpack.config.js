@@ -3,7 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
     entry: {
-        index: './src/index.js'
+        index: './src/index.js',
+        index2: './src/index2.ts'
     },
     output: {
         // 输出文件夹必须定义为绝对路径
@@ -16,7 +17,8 @@ module.exports = {
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src')
-        }
+        },
+        extensions: ['.tsx', '.ts', '.js']
     },
     externalsType: 'script',
     externals: {
@@ -82,7 +84,7 @@ module.exports = {
             filename: 'index.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
-            chunks: ['index'] // 要引入的js文件
+            chunks: ['index', 'index2'] // 要引入的js文件
         }),
         new HtmlWebpackPlugin({
             template: './src/views/404.html', // 打包生成的文件的模板
@@ -119,6 +121,11 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 use: ['babel-loader', 'eslint-loader']
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
             }
         ]
     }
