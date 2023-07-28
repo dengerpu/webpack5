@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
     entry: {
         index: './src/index.js'
@@ -11,6 +12,20 @@ module.exports = {
         clean: true,
         // 开发模式不需要配置缓存
         filename: 'scripts/[name].js'
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src')
+        }
+    },
+    externalsType: 'script',
+    externals: {
+        // key值必须和包的名称（也就是  import $ from 'jquery'中的from后面的内容一致）
+        // jquery: 'jQuery' // 这种方式需要在index.html中通过script引入jquery
+        jquery: [
+            'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js',
+            '$'
+        ]
     },
     devServer: {
         hot: true,
@@ -75,13 +90,31 @@ module.exports = {
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
             chunks: ['']
-        })
+        }),
+        new BundleAnalyzerPlugin()
     ],
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                exclude: /node_modules/,
+                // use: ['style-loader', 'css-loader']
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            // 开启css模块
+                            modules: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    }
+                ]
             },
             {
                 test: /\.(js|jsx)$/,
