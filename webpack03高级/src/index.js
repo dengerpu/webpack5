@@ -28,3 +28,11 @@ button.onclick = function() {
 }
 button.innerHTML = '点我发送请求'
 document.body.appendChild(button)
+
+const worker = new Worker(new URL('./work.js', import.meta.url))
+worker.postMessage({
+    question: '请告诉我你想要的数字'
+})
+worker.onmessage = ({ data: {answer} }) => {
+    console.log(answer)
+}
