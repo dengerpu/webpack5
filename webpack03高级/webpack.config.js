@@ -3,8 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
     entry: {
-        index: './src/index.js',
-        index2: './src/index2.ts'
+        // index: './src/index.js',
+        // index2: './src/index2.ts'
+        main: {
+            import: ['./src/index.js', './src/index2.ts'],
+            dependOn: 'lodash',
+            // 这个名字优先级高于output中的filename
+            filename: 'script1/[name].js'
+        },
+        main2: {
+            import: ['./src/index3.js', './src/index4.js'],
+            dependOn: 'lodash',
+            filename: 'script2/[name].js'
+        },
+        lodash: {
+            import: 'lodash',
+            filename: 'common/[name].js'
+        }
     },
     output: {
         // 输出文件夹必须定义为绝对路径
@@ -80,18 +95,21 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     plugins: [
         new HtmlWebpackPlugin({
+            title: '自定义标题',
             template: './index.html', // 打包生成的文件的模板
             filename: 'index.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
-            chunks: ['index', 'index2'] // 要引入的js文件
+            chunks: ['main', 'main2', 'lodash'], // 要引入的js文件
+            publicPath: 'http://www.a.com/'
         }),
         new HtmlWebpackPlugin({
             template: './src/views/404.html', // 打包生成的文件的模板
             filename: '404.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
-            chunks: ['']
+            chunks: [''],
+            publicPath: 'http://www.b.com/'
         }),
         new BundleAnalyzerPlugin()
     ],
