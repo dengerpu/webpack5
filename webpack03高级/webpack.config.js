@@ -1,10 +1,13 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
     entry: {
         // index: './src/index.js',
         // index2: './src/index2.ts'
+        app: './src/app.js',
         main: {
             import: ['./src/index.js', './src/index2.ts'],
             dependOn: 'lodash',
@@ -19,7 +22,8 @@ module.exports = {
         lodash: {
             import: 'lodash',
             filename: 'common/[name].js'
-        }
+        },
+        app2: './src/app2.js'
     },
     output: {
         // 输出文件夹必须定义为绝对路径
@@ -79,7 +83,7 @@ module.exports = {
         //     passphrase: 'webpack-dev-server',
         //     requestCert: true,
         // }
-        http2: true,
+        // http2: true,
         // historyApiFallback: true // 访问不存在的路径默认会跳到index.html
         historyApiFallback: {
             rewrites: [
@@ -91,8 +95,9 @@ module.exports = {
         // host: '0.0.0.0' // 局域网下共享服务
     },
     // 开发模式
-    mode: 'development',
-    devtool: 'cheap-module-source-map',
+    // mode: 'development',
+    mode: 'production',
+    // devtool: 'inline-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             title: '自定义标题',
@@ -100,8 +105,9 @@ module.exports = {
             filename: 'index.html', // 打包生成的文件名称。默认为index.html
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
-            chunks: ['main', 'main2', 'lodash'], // 要引入的js文件
-            publicPath: 'http://www.a.com/'
+            // chunks: ['main', 'main2', 'lodash'], // 要引入的js文件
+            chunks: ['app2']
+            // publicPath: 'http://www.a.com/'
         }),
         new HtmlWebpackPlugin({
             template: './src/views/404.html', // 打包生成的文件的模板
@@ -109,9 +115,18 @@ module.exports = {
             // 也就是<script src="bundle.js"></script>的位置
             inject: 'body', // true|'head'|'body'|false，默认值为 true
             chunks: [''],
-            publicPath: 'http://www.b.com/'
+            // publicPath: 'http://www.b.com/'
         }),
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin(),
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true
+        }),
+        new webpack.ProvidePlugin({
+            _: 'lodash'
+        })
     ],
     module: {
         rules: [
@@ -136,15 +151,22 @@ module.exports = {
                     }
                 ]
             },
-            {
-                test: /\.(js|jsx)$/,
-                use: ['babel-loader', 'eslint-loader']
-            },
+            // {
+            //     test: /\.(js|jsx)$/,
+            //     use: ['babel-loader', 'eslint-loader']
+            // },
             {
                 test: /\.(ts|tsx)$/,
                 use: 'ts-loader',
                 exclude: /node_modules/
-            }
+            },
+            {
+                test: require.resolve('./src/app2.js'),
+                use: 'imports-loader?wrapper=window',
+            },
         ]
+    },
+    optimization: {
+        usedExports: true
     }
 }

@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "sideEffects": [
+    "*.css",
+    "*.global.js"
+  ],
   "scripts": {
     "serve": "webpack serve --open",
     "build": "webpack",
@@ -24,6 +28,7 @@
     "eslint-loader": "^4.0.2",
     "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.3",
+    "imports-loader": "^4.0.1",
     "postcss-loader": "^7.3.3",
     "postcss-nested": "^6.0.1",
     "style-loader": "^3.3.3",
@@ -32,6 +37,7 @@
     "webpack": "^5.88.2",
     "webpack-bundle-analyzer": "^4.9.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "workbox-webpack-plugin": "^7.0.0"
   }
 }
