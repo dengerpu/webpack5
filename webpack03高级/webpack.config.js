@@ -164,6 +164,10 @@ module.exports = {
                 test: require.resolve('./src/app2.js'),
                 use: 'imports-loader?wrapper=window',
             },
+            {
+                test: require.resolve('./src/global.js'),
+                use: 'exports-loader?type=commonjs&exports=file,multiple|helpers.parse|parse',
+            }
         ]
     },
     optimization: {
