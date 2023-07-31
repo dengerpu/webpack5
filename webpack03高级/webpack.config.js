@@ -156,18 +156,41 @@ module.exports = {
             //     use: ['babel-loader', 'eslint-loader']
             // },
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: [
+                                        'last 1 version',
+                                        '> 1%'
+                                    ],
+                                    useBuiltIns: 'usage',
+                                    // 添加corejs配置
+                                    corejs: 3
+                                }
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 use: 'ts-loader',
                 exclude: /node_modules/
             },
-            {
-                test: require.resolve('./src/app2.js'),
-                use: 'imports-loader?wrapper=window',
-            },
-            {
-                test: require.resolve('./src/global.js'),
-                use: 'exports-loader?type=commonjs&exports=file,multiple|helpers.parse|parse',
-            }
+            // {
+            //     test: require.resolve('./src/app2.js'),
+            //     use: 'imports-loader?wrapper=window',
+            // },
+            // {
+            //     test: require.resolve('./src/global.js'),
+            //     use: 'exports-loader?type=commonjs&exports=file,multiple|helpers.parse|parse',
+            // }
         ]
     },
     optimization: {
